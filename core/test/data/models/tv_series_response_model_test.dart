@@ -23,13 +23,13 @@ void main() {
     voteAverage: 8.17,
     voteCount: 12,
   );
-  final tTvSeriesResponseModel =
+  const tTvSeriesResponseModel =
       TvSeriesResponse(tvSeriesList: <TvSeriesModel>[tTvSeriesModel]);
   group('fromJson', () {
     test('should return a valid model from JSON', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
-          json.decode(readJson('dummy_data/on_the_air.json'));
+          json.decode(readJson('dummy_data\\on_the_air.json'));
       // act
       final result = TvSeriesResponse.fromJson(jsonMap);
       // assert
