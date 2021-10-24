@@ -494,6 +494,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
+  movies:
+    dependency: "direct main"
+    description:
+      path: "../movies"
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:
@@ -786,6 +793,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  tv_series:
+    dependency: transitive
+    description:
+      path: "../tv_series"
+      relative: true
+    source: path
+    version: "0.0.1"
   typed_data:
     dependency: transitive
     description:
