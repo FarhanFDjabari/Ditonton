@@ -1,6 +1,7 @@
 name: core
 description: A new Flutter package project.
 version: 0.0.1
+publish_to: none
 homepage:
 
 environment:
@@ -19,10 +20,14 @@ dependencies:
   http: ^0.13.4
   provider: ^6.0.1
   dartz: ^0.10.0-nullsafety.2
+  encrypt: ^5.0.1
   flutter_rating_bar: ^4.0.0
   cached_network_image: ^3.1.0
   get_it: ^7.2.0
-  sqflite: ^2.0.0+4
+  sqflite_sqlcipher: ^2.1.0
+  firebase_core: ^1.8.0
+  firebase_crashlytics: ^2.2.4
+  flutter_bloc: ^7.3.1
   path_provider: ^2.0.5
   data_connection_checker:
     git:
@@ -35,6 +40,7 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   mockito: ^5.0.16
   analyzer: ^2.5.0
+  bloc_test: ^8.3.0
   build_runner: ^2.1.4
 
 # For information on the generic Dart part of this file, see the

@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/presentation/bloc/tv_series_list/tv_series_list_bloc.dart';
 import 'package:core/styles/text_styles.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/tv_series.dart';
 import '../../utils/constants.dart';
-import '../../utils/state_enum.dart';
 import '../pages/popular_tv_series_page.dart';
 import '../pages/top_rated_tv_series_page.dart';
 import '../pages/tv_series_detail_page.dart';
-import '../provider/tv_series_list_notifier.dart';
 import 'on_the_air_tv_series_page.dart';
 
 class HomeTvSeriesPage extends StatefulWidget {
@@ -26,25 +26,22 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => Provider.of<TvSeriesListNotifier>(context, listen: false)
-          ..fetchOnTheAirTvSeries()
-          ..fetchPopularTvSeries()
-          ..fetchTopRatedTvSeries());
+    Future.microtask(() => Provider.of<TvSeriesListBloc>(context, listen: false)
+        .add(FetchTvSeriesList()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
-        title: Text('Ditonton TV Series'),
+        leading: const Icon(Icons.menu),
+        title: const Text('Ditonton TV Series'),
         actions: [
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, SEARCH_TV_ROUTE);
             },
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
           )
         ],
       ),
@@ -59,16 +56,16 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
                 onTap: () => Navigator.pushNamed(
                     context, OnTheAirTvSeriesPage.ROUTE_NAME),
               ),
-              Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
-                final state = data.onTheAirState;
-                if (state == RequestState.Loading) {
-                  return Center(
+              BlocBuilder<TvSeriesListBloc, TvSeriesListState>(
+                  builder: (context, state) {
+                if (state is TvSeriesListLoading) {
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.onTheAirTvSeries);
+                } else if (state is TvSeriesListLoaded) {
+                  return MovieList(state.onTheAir);
                 } else {
-                  return Text('Failed');
+                  return const Text('Failed');
                 }
               }),
               _buildSubHeading(
@@ -76,16 +73,16 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
                 onTap: () => Navigator.pushNamed(
                     context, PopularTvSeriesPage.ROUTE_NAME),
               ),
-              Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
-                final state = data.popularSeriesState;
-                if (state == RequestState.Loading) {
-                  return Center(
+              BlocBuilder<TvSeriesListBloc, TvSeriesListState>(
+                  builder: (context, state) {
+                if (state is TvSeriesListLoading) {
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.popularTvSeries);
+                } else if (state is TvSeriesListLoaded) {
+                  return MovieList(state.popular);
                 } else {
-                  return Text('Failed');
+                  return const Text('Failed');
                 }
               }),
               _buildSubHeading(
@@ -93,16 +90,16 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
                 onTap: () => Navigator.pushNamed(
                     context, TopRatedTvSeriesPage.ROUTE_NAME),
               ),
-              Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
-                final state = data.topRatedTvSeriesState;
-                if (state == RequestState.Loading) {
-                  return Center(
+              BlocBuilder<TvSeriesListBloc, TvSeriesListState>(
+                  builder: (context, state) {
+                if (state is TvSeriesListLoading) {
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.topRatedTvSeries);
+                } else if (state is TvSeriesListLoaded) {
+                  return MovieList(state.topRated);
                 } else {
-                  return Text('Failed');
+                  return const Text('Failed');
                 }
               }),
             ],
@@ -125,7 +122,7 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: [Text('See More'), Icon(Icons.arrow_forward_ios)],
+              children: const [Text('See More'), Icon(Icons.arrow_forward_ios)],
             ),
           ),
         ),
@@ -141,7 +138,7 @@ class MovieList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -158,13 +155,13 @@ class MovieList extends StatelessWidget {
                 );
               },
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
                   imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
-                  placeholder: (context, url) => Center(
+                  placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
