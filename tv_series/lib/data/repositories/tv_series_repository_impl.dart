@@ -33,6 +33,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return left(CommonFailure('Certificated not valid\n${e.message}'));
       }
     } else {
       try {
@@ -53,6 +55,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return left(CommonFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -66,6 +70,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return left(CommonFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -77,6 +83,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return left(CommonFailure('Certificated not valid\n${e.message}'));
       }
     } else {
       try {
@@ -96,6 +104,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      } on TlsException catch (e) {
+        return left(CommonFailure('Certificated not valid\n${e.message}'));
       }
     } else {
       try {
@@ -116,6 +126,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return left(CommonFailure('Certificated not valid\n${e.message}'));
     }
   }
 

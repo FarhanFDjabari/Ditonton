@@ -4,6 +4,7 @@ import 'package:core/presentation/pages/watchlist_movies_page.dart';
 import 'package:core/presentation/widgets/custom_drawer.dart';
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_styles.dart';
+import 'package:core/utils/http_ssl_pinning.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,6 +40,7 @@ import 'package:tv_series/presentation/pages/tv_series_detail_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await HttpSSLPinning.init();
   await Firebase.initializeApp();
   di.init();
   runApp(MyApp());
