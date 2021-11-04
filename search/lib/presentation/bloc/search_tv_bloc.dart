@@ -10,17 +10,6 @@ part 'search_tv_state.dart';
 class SearchTvBloc extends Bloc<SearchTvEvent, SearchTvState> {
   final SearchTvSeries searchTvSeries;
 
-  @override
-  Stream<Transition<SearchTvEvent, SearchTvState>> transformEvents(
-    Stream<SearchTvEvent> events,
-    TransitionFunction<SearchTvEvent, SearchTvState> transitionFn,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
-      transitionFn,
-    );
-  }
-
   SearchTvBloc({required this.searchTvSeries}) : super(SearchTvEmpty()) {
     on<SearchTvEvent>((event, emit) async {
       if (event is OnTvSeriesQueryChanged) {
